@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +17,7 @@ import android.view.ViewGroup;
  */
 public class readcsvFragment extends Fragment {
 
-//    private readcsvData readcsvData = null;
+    private readcsvData readcsvData = null;
 
     public readcsvFragment() {
         // Required empty public constructor
@@ -43,6 +44,47 @@ public class readcsvFragment extends Fragment {
     @Override
     public void onViewCreated (@NonNull View view, Bundle savedInstanceState ) {
         super.onViewCreated( view, savedInstanceState);
-//        readcsvData = new readcsvData( getActivity() );
+        readcsvData = new readcsvData( getActivity() );
+        SaveButtonClickListener saveButtonClickListener = new SaveButtonClickListener();
+        saveButtonClickListener.onClick(null); // Pass a dummy view (null) since onClick method expects a View parameter
+    }
+
+    public class readcsvDBWriter extends AsyncTask<readcsv, readcsv> {
+        @Override
+        protected readcsv doInBackground (readcsv... readcsvs) {
+            readcsvData.storereadcsv( readcsvs[0]);
+            return readcsvs[0];
+        }
+        @Override
+        protected void onPostExecute(readcsv readcsvToken) {
+            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    private class SaveButtonClickListener implements  View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+        String state = "test";
+        String capitalCity = "test";
+        String additionalCity1 = "test";
+        String additionalCity2 = "test";
+        readcsv readcsvTokenExecute = new readcsv(state, capitalCity, additionalCity1, additionalCity2);
+        new readcsvDBWriter().execute(readcsvTokenExecute);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (readcsvData != null)
+            readcsvData.open();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (readcsvData != null) {
+            readcsvData.close();
+        }
     }
 }
