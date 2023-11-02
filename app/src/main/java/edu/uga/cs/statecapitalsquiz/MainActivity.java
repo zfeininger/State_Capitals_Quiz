@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment fragment = new readcsv();
+        Fragment fragment = new readcsvFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
     }
