@@ -2,6 +2,7 @@ package edu.uga.cs.statecapitalsquiz;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class readcsvFragment extends Fragment {
+
+//    private readcsvData readcsvData = null;
 
     public readcsvFragment() {
         // Required empty public constructor
@@ -34,5 +37,12 @@ public class readcsvFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_readcsv, container, false);
+
+    }
+
+    @Override
+    public void onViewCreated (@NonNull View view, Bundle savedInstanceState ) {
+        super.onViewCreated( view, savedInstanceState);
+//        readcsvData = new readcsvData( getActivity() );
     }
 }
