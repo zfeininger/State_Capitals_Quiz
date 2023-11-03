@@ -59,6 +59,7 @@ public class readcsvData {
                         String additionalCity1 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readcsvDBHelper.STATES_COLUMN_ADDITIONALCITY2);
                         String additionalCity2 = cursor.getString(columnIndex);
+
                         readcsv readcsv = new readcsv(state, capitalCity, additionalCity1, additionalCity2);
                         readcsv.setId(id);
                         readcsvs.add(readcsv);

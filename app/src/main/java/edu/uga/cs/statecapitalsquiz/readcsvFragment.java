@@ -45,8 +45,10 @@ public class readcsvFragment extends Fragment {
     public void onViewCreated (@NonNull View view, Bundle savedInstanceState ) {
         super.onViewCreated( view, savedInstanceState);
         readcsvData = new readcsvData( getActivity() );
+        if (readcsvData != null)
+            readcsvData.open();
         SaveButtonClickListener saveButtonClickListener = new SaveButtonClickListener();
-        saveButtonClickListener.onClick(null); // Pass a dummy view (null) since onClick method expects a View parameter
+        saveButtonClickListener.onClick(null); // Pass a dummy view (null) since onClick method expects a View paramete
     }
 
     public class readcsvDBWriter extends AsyncTask<readcsv, readcsv> {
@@ -76,7 +78,7 @@ public class readcsvFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (readcsvData != null)
+        if (readcsvData != null && !readcsvData.isDBOpen())
             readcsvData.open();
     }
 

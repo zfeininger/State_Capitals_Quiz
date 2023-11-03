@@ -11,7 +11,7 @@ import android.util.Log;
 public class readcsvDBHelper extends SQLiteOpenHelper {
 
     private static final String DEBUG_TAG = "readcsvDBHelper";
-    private static final String DB_Name = "jobsleads.db";
+    private static final String DB_NAME = "readcsv.db";
     private static final int DB_VERSION = 1;
     public static final String TABLE_STATES = "states";
     public static final String STATES_COLUMN_ID = "_id";
@@ -30,7 +30,7 @@ public class readcsvDBHelper extends SQLiteOpenHelper {
             + STATES_COLUMN_ADDITIONALCITY2 + " TEXT"
             + ")";
 
-    private readcsvDBHelper (Context context ) {super (context, DB_Name, null, DB_VERSION);}
+    private readcsvDBHelper (Context context ) {super (context, DB_NAME, null, DB_VERSION);}
 
     public static synchronized  readcsvDBHelper getInstance(Context context) {
         if ( helperInstance == null) {
