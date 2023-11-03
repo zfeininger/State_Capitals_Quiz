@@ -1,14 +1,23 @@
 package edu.uga.cs.statecapitalsquiz;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.content.Context;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +56,7 @@ public class readcsvFragment extends Fragment {
         readcsvData = new readcsvData( getActivity() );
         if (readcsvData != null)
             readcsvData.open();
-        SaveButtonClickListener saveButtonClickListener = new SaveButtonClickListener();
+        SaveButtonClickListener saveButtonClickListener = new SaveButtonClickListener(getActivity().getAssets());
         saveButtonClickListener.onClick(null); // Pass a dummy view (null) since onClick method expects a View paramete
     }
 
@@ -64,14 +73,46 @@ public class readcsvFragment extends Fragment {
         }
     }
     private class SaveButtonClickListener implements  View.OnClickListener {
+        private AssetManager assetManager;
+        SaveButtonClickListener(AssetManager assetManager) {
+            this.assetManager = assetManager;
+        }
         @Override
         public void onClick(View v) {
-        String state = "test";
-        String capitalCity = "test";
-        String additionalCity1 = "test";
-        String additionalCity2 = "test";
-        readcsv readcsvTokenExecute = new readcsv(state, capitalCity, additionalCity1, additionalCity2);
-        new readcsvDBWriter().execute(readcsvTokenExecute);
+            List<readcsv> readcsvList = readcsvData.retrieveAllreadcsvLeads();
+            Log.d("TAGGGGGG", "Rows: " + readcsvList.size());
+            if (readcsvList.size() < 50) {
+                try {
+                    InputStream inputStream = assetManager.open("StateCapitals.csv");
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    int track = 0;
+                    while (true) {
+                        String line = bufferedReader.readLine();
+                        if (track == 0) {
+                            track++;
+                            line = bufferedReader.readLine();
+                        }
+                        if (line == null) {
+                            break;
+                        }
+                        String[] data = line.split(",");
+                        if (data.length >= 4) {
+                            String state = data[0];
+                            String capitalCity = data[1];
+                            String additionalCity1 = data[2];
+                            String additionalCity2 = data[3];
+                            readcsv readcsvTokenExecute = new readcsv(state, capitalCity, additionalCity1, additionalCity2);
+                            new readcsvDBWriter().execute(readcsvTokenExecute);
+                        }
+                    }
+                    bufferedReader.close();
+                    inputStreamReader.close();
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

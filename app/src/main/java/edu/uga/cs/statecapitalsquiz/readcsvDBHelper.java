@@ -22,7 +22,7 @@ public class readcsvDBHelper extends SQLiteOpenHelper {
     private static readcsvDBHelper helperInstance;
 
     private static final String CREATE_STATES =
-            "create table " + TABLE_STATES + " ("
+            "create table if not exists " + TABLE_STATES + " ("
             + STATES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + STATES_COLUMN_STATES + " TEXT, "
             + STATES_COLUMN_CAPITALCITY + " TEXT, "
