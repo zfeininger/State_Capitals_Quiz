@@ -85,7 +85,7 @@ public class readcsvFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (readcsvData != null) {
+        if (readcsvData != null && readcsvData.isDBOpen()) {
             readcsvData.close();
         }
     }
