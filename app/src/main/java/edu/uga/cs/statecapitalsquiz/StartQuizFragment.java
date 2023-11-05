@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +50,9 @@ public class StartQuizFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_start_quiz, container, false);
         textview = view.findViewById(R.id.textview1);
         List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
-        for (readcsv item : readcsvList) {
+        Collections.shuffle(readcsvList, new Random());
+        for (int i = 0; i < 6; i++) {
+            readcsv item = readcsvList.get(i);
             Log.d("JUST TO CHECK SOON TO DELETE", "test: " + item.toString());
         }
         return view;
