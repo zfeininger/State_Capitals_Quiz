@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,8 +69,22 @@ public class readcsvFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(readcsv readcsvToken) {
-            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
+//                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public class readcsvDBReader extends AsyncTask<Void, List<readcsv>> {
+        @Override
+        protected List<readcsv> doInBackground(Void... params) {
+            List<readcsv> readcsvList = readcsvData.retrieveAllreadcsvLeads();
+            Log.d("TAG", "States Recieved: " + readcsvList.size());
+            return readcsvList;
+        }
+        @Override
+        protected void onPostExecute(List<readcsv> readcsv) {
+            Log.d("Tag", "Job List size");
+//            readcsvList.addAll(readcsvList);
         }
     }
     private class SaveButtonClickListener implements  View.OnClickListener {
@@ -79,7 +94,7 @@ public class readcsvFragment extends Fragment {
         }
         @Override
         public void onClick(View v) {
-            List<readcsv> readcsvList = readcsvData.retrieveAllreadcsvLeads();
+            List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
             Log.d("TAGGGGGG", "Rows: " + readcsvList.size());
             if (readcsvList.size() < 50) {
                 try {
