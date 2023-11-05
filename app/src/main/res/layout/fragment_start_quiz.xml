@@ -7,10 +7,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/textview1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="LOOK AT CREATING QUIZ MATERIAL HERE"
-        android:textSize="20sp"
-        />
+        android:textSize="20sp" />
 
 </FrameLayout>

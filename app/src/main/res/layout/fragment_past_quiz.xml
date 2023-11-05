@@ -9,6 +9,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="LOOK AT CREATING PAST QUIZ SET UP MATERIAL HERE" />
+        android:text="NO PAST QUIZZES YET LOSERS" />
 
 </FrameLayout>
