@@ -20,6 +20,7 @@ import java.util.Random;
  * create an instance of this fragment.
  */
 public class StartQuizFragment extends Fragment {
+    private static int fragmentCreationCount = 0;
 
     private TextView textview;
     private readcsvData readcsvData = null;
@@ -52,6 +53,7 @@ public class StartQuizFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        fragmentCreationCount++;
         readcsvData = new readcsvData(getActivity());
         if (readcsvData != null)
             readcsvData.open();
@@ -62,7 +64,15 @@ public class StartQuizFragment extends Fragment {
         List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
         Collections.shuffle(readcsvList, new Random());
         readcsv item = readcsvList.get(0);
-        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + item.toString());
+        String itemString = item.toString();
+        String[] tokens = itemString.split("\\s+");
+        String state = tokens[1];
+        String capitalCity = tokens[2];
+        String additionalCity1 = tokens[3];
+        String additionalCity2 = tokens[4];
+
+
+        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + fragmentCreationCount);
         textview.setText(item.toString());
         return view;
     }

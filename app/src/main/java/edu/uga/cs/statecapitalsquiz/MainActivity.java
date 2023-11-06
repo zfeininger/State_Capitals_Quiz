@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -61,15 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        ViewPager2 pager = findViewById( R.id.viewpager );
-        capitalsPageAdapter avpAdapter = new
-                capitalsPageAdapter(
-                getSupportFragmentManager(), getLifecycle() );
-        pager.setOrientation(
-                ViewPager2.ORIENTATION_HORIZONTAL );
-        pager.setAdapter( avpAdapter );
-
-
 
     }
 
@@ -78,13 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectDrawerItem( MenuItem menuItem ) {
         Fragment fragment = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
 
         // Create a new fragment based on the used selection in the nav drawer
         int itemId = menuItem.getItemId();
         if (itemId == R.id.start_quiz) {
-            fragment = new StartQuizFragment();
+            Intent intent = new Intent(MainActivity.this, StartQuizActivity.class);
+            startActivity(intent);
         } else if (itemId == R.id.past_quiz) {
             fragment = new PastQuizFragment();
+            fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("main screen" ).commit();
         } else if (itemId == R.id.menu_close) {
             finish();
         } else {
@@ -92,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Set up the fragment by replacing any existing fragment in the main activity
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("main screen" ).commit();
 
         /*
         // this is included here as a possible future modification
