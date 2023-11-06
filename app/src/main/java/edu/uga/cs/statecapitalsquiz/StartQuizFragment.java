@@ -24,31 +24,41 @@ public class StartQuizFragment extends Fragment {
     private TextView textview;
     private readcsvData readcsvData = null;
 
+    private int position;
 
     public StartQuizFragment() {
         // Required empty public constructor
     }
 
-    public static StartQuizFragment newInstance(String param1, String param2) {
+    public static StartQuizFragment newInstance(int position) {
         StartQuizFragment fragment = new StartQuizFragment();
         Bundle args = new Bundle();
+        args.putInt("position", position);
+        fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            position = getArguments().getInt("position");
+            // Handle the 'position' value as needed
 
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        readcsvData = new readcsvData( getActivity() );
+        readcsvData = new readcsvData(getActivity());
         if (readcsvData != null)
             readcsvData.open();
         View view = inflater.inflate(R.layout.fragment_start_quiz, container, false);
         textview = view.findViewById(R.id.textview1);
+
+
         List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
         Collections.shuffle(readcsvList, new Random());
         for (int i = 0; i < 6; i++) {
@@ -58,6 +68,7 @@ public class StartQuizFragment extends Fragment {
         return view;
     }
 
+
     public class readcsvDBReader extends AsyncTask<Void, List<readcsv>> {
         @Override
         protected List<readcsv> doInBackground(Void... params) {
@@ -65,6 +76,7 @@ public class StartQuizFragment extends Fragment {
             Log.d("TAG", "States Recieved: " + readcsvList.size());
             return readcsvList;
         }
+
         @Override
         protected void onPostExecute(List<readcsv> readcsv) {
             Log.d("Tag", "Job List size");
@@ -87,3 +99,5 @@ public class StartQuizFragment extends Fragment {
         }
     }
 }
+
+

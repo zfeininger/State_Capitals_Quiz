@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,31 +34,41 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = new readcsvFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
 
         // assigning ID of the toolbar to a variable
-        toolbar = findViewById( R.id.toolbar );
+        toolbar = findViewById(R.id.toolbar);
 
         // using toolbar as ActionBar
-        setSupportActionBar( toolbar );
+        setSupportActionBar(toolbar);
 
         // Find our drawer view
-        drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
-        drawerToggle.setDrawerIndicatorEnabled( true );
+        drawerToggle.setDrawerIndicatorEnabled(true);
         drawerToggle.syncState();
 
         // Connect DrawerLayout events to the ActionBarToggle
-        drawerLayout.addDrawerListener( drawerToggle );
+        drawerLayout.addDrawerListener(drawerToggle);
 
         // Find the drawer view
-        navigationView = findViewById( R.id.nvView );
+        navigationView = findViewById(R.id.nvView);
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
-                    selectDrawerItem( menuItem );
+                    selectDrawerItem(menuItem);
                     return true;
                 });
+
+
+        ViewPager2 pager = findViewById( R.id.viewpager );
+        capitalsPageAdapter avpAdapter = new
+                capitalsPageAdapter(
+                getSupportFragmentManager(), getLifecycle() );
+        pager.setOrientation(
+                ViewPager2.ORIENTATION_HORIZONTAL );
+        pager.setAdapter( avpAdapter );
+
 
 
     }
