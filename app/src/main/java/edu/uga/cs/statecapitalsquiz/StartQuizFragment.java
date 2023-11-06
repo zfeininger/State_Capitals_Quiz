@@ -61,10 +61,9 @@ public class StartQuizFragment extends Fragment {
 
         List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
         Collections.shuffle(readcsvList, new Random());
-        for (int i = 0; i < 6; i++) {
-            readcsv item = readcsvList.get(i);
-            Log.d("JUST TO CHECK SOON TO DELETE", "test: " + item.toString());
-        }
+        readcsv item = readcsvList.get(0);
+        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + item.toString());
+        textview.setText(item.toString());
         return view;
     }
 
