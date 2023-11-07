@@ -55,17 +55,17 @@ public class readQuizzesData {
                         columnIndex = cursor.getColumnIndex((readQuizzesDBHelper.QUIZZES_COLUMN_QUIZDATE));
                         String quizDate = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION1);
-                        int question1 = cursor.getInt(columnIndex);
+                        String question1 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION2);
-                        int question2 = cursor.getInt(columnIndex);
+                        String question2 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION3);
-                        int question3 = cursor.getInt(columnIndex);
+                        String question3 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION4);
-                        int question4 = cursor.getInt((columnIndex));
+                        String question4 = cursor.getString((columnIndex));
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION5);
-                        int question5 = cursor.getInt(columnIndex);
+                        String question5 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION6);
-                        int question6 = cursor.getInt(columnIndex);
+                        String question6 = cursor.getString(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_NUMBERCORRECTANSWERS);
                         int number_correct_answers = cursor.getInt(columnIndex);
                         columnIndex = cursor.getColumnIndex(readQuizzesDBHelper.QUIZZES_COLUMN_NUMBERCOMPLETEDANSWERS);
@@ -109,6 +109,23 @@ public class readQuizzesData {
         readQuizzesToken.setIdSecondDB(id);
         Log.d(DEBUG_TAG, "Stored new quiz lead with id: " + String.valueOf(readQuizzesToken.getIdSecondDB()));
         return readQuizzesToken;
+    }
+
+    public boolean updateReadQuizzes(long id, readQuizzes updateReadQuizzes) {
+        ContentValues values = new ContentValues();
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUIZDATE, updateReadQuizzes.getQuizDate());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION1, updateReadQuizzes.getQuestion1());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION2, updateReadQuizzes.getQuestion2());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION3, updateReadQuizzes.getQuestion3());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION4, updateReadQuizzes.getQuestion4());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION5, updateReadQuizzes.getQuestion5());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUESTION6, updateReadQuizzes.getQuestion6());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_NUMBERCORRECTANSWERS, updateReadQuizzes.getNumber_correct_answers());
+        values.put(readQuizzesDBHelper.QUIZZES_COLUMN_NUMBERCOMPLETEDANSWERS, updateReadQuizzes.getNumber_completed_answers());
+        String whereClause = readQuizzesDBHelper.QUIZZES_COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+        int rowsUpdated = db2.update(readQuizzesDBHelper.TABLE_QUIZZES, values, whereClause, whereArgs);
+        return rowsUpdated > 0;
     }
 
 

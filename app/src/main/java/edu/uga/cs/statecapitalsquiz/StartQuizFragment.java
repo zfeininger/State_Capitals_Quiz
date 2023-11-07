@@ -28,9 +28,25 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class StartQuizFragment extends Fragment {
+    private static String question1 = null;
+    private static String question2 = null;
+    private static String question3 = null;
+    private static String question4 = null;
+    private static String question5 = null;
+    private static String question6 = null;
+    private static int number_correct_answers = 0;
+    private static int number_completed_answers = 1;
+
+
+
+
+
+
+
     private String previousState;
     private readQuizzesData readQuizzesData = null;
     private static List<readcsv> readcsvList;
+    private static List<readQuizzes> readQuizzesList;
     private String state;
 
     private String capitalCity;
@@ -96,9 +112,9 @@ public class StartQuizFragment extends Fragment {
         readcsv item = readcsvList.get(fragmentCreationCount);
         String itemString = item.toString();
         String[] tokens = itemString.split("\\s+");
-        previousState = tokens[0];
-        String[] parts = previousState.split(":");
-        previousState = parts[0];
+//        previousState = tokens[0];
+//        String[] parts = previousState.split(":");
+//        previousState = parts[0];
         state = tokens[1];
         capitalCity = tokens[2];
         additionalCity1 = tokens[3];
@@ -170,6 +186,7 @@ public class StartQuizFragment extends Fragment {
             additionalCity1 = tokens[4];
             additionalCity2 = tokens[5] + tokens[6];
         }
+        previousState = state;
 
 
 
@@ -227,21 +244,34 @@ public class StartQuizFragment extends Fragment {
         Date currentDate = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String quizDate = dateFormatter.format(currentDate);
-        int question1 = 1;
-        int question2 = 1;
-        int question3 = 1;
-        int question4 = 1;
-        int question5 = 1;
-        int question6 = 1;
-        int number_correct_answers = 0;
-        int number_completed_answers = 1;
+
         if (fragmentCreationCount == 2) {
-            question1 = Integer.valueOf(previousState);
+            question1 = previousState;
             if (correct) {
                 number_correct_answers++;
             }
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new readQuizzesDBWriter().execute(readQuizzesTokenExecute);
+        } else if (fragmentCreationCount == 3) {
+            number_completed_answers++;
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            long id = readQuizzesList.size();
+            question2 = previousState;
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
+        } else if (fragmentCreationCount == 4) {
+            number_completed_answers++;
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            long id = readQuizzesList.size();
+            question3 = previousState;
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         }
 
 
@@ -263,6 +293,35 @@ public class StartQuizFragment extends Fragment {
         protected void onPostExecute(readQuizzes readQuizzesToken) {
             //            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
 //                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public class updateQuizzesDBWriter extends AsyncTask<readQuizzes, readQuizzes> {
+        private long idToUpdate;
+        public updateQuizzesDBWriter(long id) {
+            this.idToUpdate = id;
+        }
+        @Override
+        protected readQuizzes doInBackground(readQuizzes... readQuizzesMulti) {
+            readQuizzesData.updateReadQuizzes(idToUpdate, readQuizzesMulti[0]);
+            return readQuizzesMulti[0];
+        }
+        @Override
+        protected void onPostExecute(readQuizzes readQuizzesToken) {
+
+        }
+    }
+
+    public class readQuizzesDBReader extends AsyncTask<Void, List<readQuizzes>> {
+        @Override
+        protected List<readQuizzes> doInBackground(Void... params) {
+            List<readQuizzes> readQuizzesList = readQuizzesData.retrieveAllreadQuizzesLeads();
+            Log.d("TAG", "Recieved: " + readQuizzesList.size() );
+            return readQuizzesList;
+        }
+        @Override
+        protected void onPostExecute(List<readQuizzes> readQuizzes) {
+
         }
     }
 }
