@@ -11,10 +11,16 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +28,8 @@ import java.util.Random;
  * create an instance of this fragment.
  */
 public class StartQuizFragment extends Fragment {
+    private String previousState;
+    private readQuizzesData readQuizzesData = null;
     private static List<readcsv> readcsvList;
     private String state;
 
@@ -67,8 +75,13 @@ public class StartQuizFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentCreationCount++;
         readcsvData = new readcsvData(getActivity());
-        if (readcsvData != null)
+        readQuizzesData = new readQuizzesData(getActivity());
+        if (readcsvData != null) {
             readcsvData.open();
+        }
+        if (readQuizzesData != null) {
+            readQuizzesData.open();
+        }
         View view = inflater.inflate(R.layout.fragment_start_quiz, container, false);
         textview = view.findViewById(R.id.textview1);
         radiogroup = view.findViewById(R.id.radioGroup);
@@ -83,7 +96,9 @@ public class StartQuizFragment extends Fragment {
         readcsv item = readcsvList.get(fragmentCreationCount);
         String itemString = item.toString();
         String[] tokens = itemString.split("\\s+");
-        String previousState = tokens[0];
+        previousState = tokens[0];
+        String[] parts = previousState.split(":");
+        previousState = parts[0];
         state = tokens[1];
         capitalCity = tokens[2];
         additionalCity1 = tokens[3];
@@ -158,7 +173,7 @@ public class StartQuizFragment extends Fragment {
 
 
 
-        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + state);
+        Log.d("JUST TO CHECK SOON TO DELETE", "FragmentCreationCount: " + fragmentCreationCount);
         textview.setText(fragmentCreationCount + ". What is the capital of " + state + "?");
         firstRadioButton.setText(capitalCity);
         secondRadioButton.setText(additionalCity1);
@@ -187,24 +202,67 @@ public class StartQuizFragment extends Fragment {
         super.onResume();
         if (readcsvData != null && !readcsvData.isDBOpen())
             readcsvData.open();
+        if (readQuizzesData != null && !readQuizzesData.isDB2Open())
+            readQuizzesData.open();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (readcsvData != null && readcsvData.isDBOpen()) {
-            readcsvData.close();
-        }
+        boolean correct = false;
         int direction = radiogroup.getCheckedRadioButtonId();
         if (direction == 2131231228) {
             Log.d("just to see", "INPUT FOR RADIOBUTTON: " + capitalCity);
+            correct = true;
         } else if (direction == 2131231229) {
             Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity1);
+            correct = false;
         } else if (direction == 2131231230) {
             Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity2);
+            correct = false;
         } else {
             Log.d("just to see", "NO INPUT FOR THE RADIOBUTTONS");
+            correct = false;
+        }
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String quizDate = dateFormatter.format(currentDate);
+        int question1 = 1;
+        int question2 = 1;
+        int question3 = 1;
+        int question4 = 1;
+        int question5 = 1;
+        int question6 = 1;
+        int number_correct_answers = 0;
+        int number_completed_answers = 1;
+        if (fragmentCreationCount == 2) {
+            question1 = Integer.valueOf(previousState);
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new readQuizzesDBWriter().execute(readQuizzesTokenExecute);
+        }
 
+
+//        if ((readQuizzesData != null && readQuizzesData.isDB2Open()) && fragmentCreationCount > 6) {
+//            readQuizzesData.close();
+//        }
+        if (readcsvData != null && readcsvData.isDBOpen()) {
+            readcsvData.close();
+        }
+    }
+
+    public class readQuizzesDBWriter extends AsyncTask<readQuizzes, readQuizzes> {
+        @Override
+        protected readQuizzes doInBackground (readQuizzes... readQuizzesMulti) {
+            readQuizzesData.storeReadQuizzes( readQuizzesMulti[0]);
+            return readQuizzesMulti[0];
+        }
+        @Override
+        protected void onPostExecute(readQuizzes readQuizzesToken) {
+            //            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
+//                    Toast.LENGTH_SHORT).show();
         }
     }
 }
