@@ -85,7 +85,8 @@ public class StartQuizActivity extends AppCompatActivity {
            // fragment = new PastQuizFragment();
             //fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("start quiz fragment" ).commit();
         } else if (itemId == R.id.menu_close) {
-            finish();
+           // finish();
+            finishAffinity();
         } else {
             return;
         }
