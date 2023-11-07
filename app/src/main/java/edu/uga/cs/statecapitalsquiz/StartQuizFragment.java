@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -20,6 +22,16 @@ import java.util.Random;
  * create an instance of this fragment.
  */
 public class StartQuizFragment extends Fragment {
+    private static List<readcsv> readcsvList;
+    private String state;
+
+    private String capitalCity;
+    private String additionalCity1;
+    private String additionalCity2;
+    private RadioGroup radiogroup;
+    private RadioButton firstRadioButton;
+    private RadioButton secondRadioButton;
+    private RadioButton thirdRadioButton;
     private static int fragmentCreationCount = 0;
 
     private TextView textview;
@@ -59,21 +71,98 @@ public class StartQuizFragment extends Fragment {
             readcsvData.open();
         View view = inflater.inflate(R.layout.fragment_start_quiz, container, false);
         textview = view.findViewById(R.id.textview1);
+        radiogroup = view.findViewById(R.id.radioGroup);
+        firstRadioButton = view.findViewById(R.id.radioButton);
+        secondRadioButton = view.findViewById(R.id.radioButton2);
+        thirdRadioButton = view.findViewById(R.id.radioButton3);
 
-
-        List<readcsv> readcsvList = new readcsvDBReader().doInBackground();
-        Collections.shuffle(readcsvList, new Random());
-        readcsv item = readcsvList.get(0);
+        if (fragmentCreationCount == 1) {
+            readcsvList = new readcsvDBReader().doInBackground();
+            Collections.shuffle(readcsvList, new Random());
+        }
+        readcsv item = readcsvList.get(fragmentCreationCount);
         String itemString = item.toString();
         String[] tokens = itemString.split("\\s+");
-        String state = tokens[1];
-        String capitalCity = tokens[2];
-        String additionalCity1 = tokens[3];
-        String additionalCity2 = tokens[4];
+        String previousState = tokens[0];
+        state = tokens[1];
+        capitalCity = tokens[2];
+        additionalCity1 = tokens[3];
+        additionalCity2 = tokens[4];
+        Log.d("JUST TO CHECK SOON TO DELETE", state);
+        if (state.equals("New") || state.equals("West") || state.equals("North") || state.equals("South") || state.equals("Rhode")) {
+            state = tokens[1] + " " + tokens[2];
+            capitalCity = tokens[3];
+            additionalCity1 = tokens[4];
+            additionalCity2 = tokens[5];
+            if (state.equals("New Jersey") || state.equals("North Dakota") || state.equals("South Carolina")) {
+                capitalCity = tokens[3];
+                additionalCity1 = tokens[4];
+                additionalCity2 = tokens[5] + " " + tokens[6];
+            }
+            if (state.equals("New Mexico")) {
+                capitalCity = tokens[3] + " " + tokens[4];
+                additionalCity1 = tokens[5];
+                additionalCity2 = tokens[6] + " " + tokens[7];
+            }
+            if (state.equals("New York")) {
+                capitalCity = tokens[3];
+                additionalCity1 = tokens[4];
+                additionalCity2 = tokens[5] + " " + tokens[6] + " " + tokens[7];
+            }
+            if (state.equals("South Dakota")) {
+                capitalCity = tokens[3];
+                additionalCity1 = tokens[4] + " " + tokens[5];
+                additionalCity2 = tokens[6] + " " + tokens[7];
+            }
+        }
+        if (state.equals("Arkansas") || state.equals("Iowa") || state.equals("Louisiana") || state.equals("Nevada")) {
+            capitalCity = tokens[2] + " " + tokens[3];
+            additionalCity1 = tokens[4] + " " + tokens[5];
+            additionalCity2 = tokens[6];
+        }
+        if (state.equals("California")) {
+            capitalCity = tokens[2];
+            additionalCity1 = tokens[3] + " " + tokens[4];
+            additionalCity2 = tokens[5] + " " + tokens[6];
+        }
+        if (state.equals("Colorado") || state.equals("Indiana")) {
+            capitalCity = tokens[2];
+            additionalCity1 = tokens[3] + " " + tokens[4];
+            additionalCity2 = tokens[5];
+        }
+        if (state.equals("Connecticut") || state.equals("Idaho") || state.equals("Kansas") || state.equals("Michigan") || state.equals("Wisconsin")) {
+            capitalCity = tokens[2];
+            additionalCity1 = tokens[3];
+            additionalCity2 = tokens[4] + " " + tokens[5];
+        }
+        if (state.equals("Missouri")) {
+            capitalCity = tokens[2] + " " + tokens[3];
+            additionalCity1 = tokens[4] + " " + tokens[5];
+            additionalCity2 = tokens[6] + " " + tokens[7];
+        }
+        if (state.equals("Oklahoma")) {
+            capitalCity = tokens[2] + " " + tokens[3];
+            additionalCity1 = tokens[4];
+            additionalCity2 = tokens[5];
+        }
+        if (state.equals("Utah")) {
+            capitalCity = tokens[2] + " " + tokens[3] + " " + tokens[4];
+            additionalCity1 = tokens[5];
+            additionalCity2 = tokens[6];
+        }
+        if (state.equals("Minnesota")) {
+            capitalCity = tokens[2] + tokens[3];
+            additionalCity1 = tokens[4];
+            additionalCity2 = tokens[5] + tokens[6];
+        }
 
 
-        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + fragmentCreationCount);
-        textview.setText(item.toString());
+
+        Log.d("JUST TO CHECK SOON TO DELETE", "test: " + state);
+        textview.setText(fragmentCreationCount + ". What is the capital of " + state + "?");
+        firstRadioButton.setText(capitalCity);
+        secondRadioButton.setText(additionalCity1);
+        thirdRadioButton.setText(additionalCity2);
         return view;
     }
 
@@ -105,6 +194,17 @@ public class StartQuizFragment extends Fragment {
         super.onPause();
         if (readcsvData != null && readcsvData.isDBOpen()) {
             readcsvData.close();
+        }
+        int direction = radiogroup.getCheckedRadioButtonId();
+        if (direction == 2131231228) {
+            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + capitalCity);
+        } else if (direction == 2131231229) {
+            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity1);
+        } else if (direction == 2131231230) {
+            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity2);
+        } else {
+            Log.d("just to see", "NO INPUT FOR THE RADIOBUTTONS");
+
         }
     }
 }
