@@ -108,5 +108,3 @@ public class StartQuizFragment extends Fragment {
         }
     }
 }
-
-
