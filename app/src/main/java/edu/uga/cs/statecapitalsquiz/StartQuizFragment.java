@@ -191,7 +191,7 @@ public class StartQuizFragment extends Fragment {
         if (state.equals("Minnesota")) {
             capitalCity = tokens[2] + tokens[3];
             additionalCity1 = tokens[4];
-            additionalCity2 = tokens[5] + tokens[6];
+            additionalCity2 = tokens[5] + " " + tokens[6];
         }
         previousState = state;
 
@@ -244,7 +244,6 @@ public class StartQuizFragment extends Fragment {
         String randomVariable1 = originalStrings.get(0);
         String randomVariable2 = originalStrings.get(1);
         String randomVariable3 = originalStrings.get(2);
-        Log.d("PAYPATPAYPAYPAYPAYATTENTIONTOME ", randomVariable1 + " " + randomVariable2 + " " + randomVariable3);
 
         firstRadioButton.setText(randomVariable1);
         secondRadioButton.setText(randomVariable2);
