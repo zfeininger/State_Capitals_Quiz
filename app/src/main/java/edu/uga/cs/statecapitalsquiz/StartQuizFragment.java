@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -221,15 +222,33 @@ public class StartQuizFragment extends Fragment {
                     total_answers = valuesArray[1].substring(0, valuesArray[1].length() - 1);
                 }
             }
-            Log.d("ASDKJLFHLAKJSDHFL;ADSHFASHDLKFJHASLJDKF", "this should work" + correct_answers);
-            TextView textview = view.findViewById(R.id.textView);
-            textview.setText(correct_answers);
+            if (Integer.parseInt(total_answers) > 6) {
+                total_answers = "6";
+            }
+//            Log.d("ASDKJLFHLAKJSDHFL;ADSHFASHDLKFJHASLJDKF", "this should work" + ratioAnswered);
+            TextView textview = view.findViewById(R.id.textView6);
+            textview.setText("Attempt: " + id);
+            TextView textview2 = view.findViewById(R.id.textView8);
+            textview2.setText("Total Answered: " + total_answers);
+            TextView textview3 = view.findViewById(R.id.textView10);
+            textview3.setText("Correctly Answered: " + correct_answers);
         }
         Log.d("JUST TO CHECK SOON TO DELETE", "FragmentCreationCount: " + fragmentCreationCount);
         textview.setText(fragmentCreationCount + ". What is the capital of " + state + "?");
-        firstRadioButton.setText(capitalCity);
-        secondRadioButton.setText(additionalCity1);
-        thirdRadioButton.setText(additionalCity2);
+
+        List<String> originalStrings = new ArrayList<>();
+        originalStrings.add(capitalCity);
+        originalStrings.add(additionalCity1);
+        originalStrings.add(additionalCity2);
+        Collections.shuffle(originalStrings);
+        String randomVariable1 = originalStrings.get(0);
+        String randomVariable2 = originalStrings.get(1);
+        String randomVariable3 = originalStrings.get(2);
+        Log.d("PAYPATPAYPAYPAYPAYATTENTIONTOME ", randomVariable1 + " " + randomVariable2 + " " + randomVariable3);
+
+        firstRadioButton.setText(randomVariable1);
+        secondRadioButton.setText(randomVariable2);
+        thirdRadioButton.setText(randomVariable3);
         return view;
     }
 
@@ -263,22 +282,32 @@ public class StartQuizFragment extends Fragment {
         super.onPause();
         boolean correct = false;
         int direction = radiogroup.getCheckedRadioButtonId();
-        if (direction == 2131231228) {
-            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + capitalCity);
-            correct = true;
-        } else if (direction == 2131231229) {
-            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity1);
-            correct = false;
-        } else if (direction == 2131231230) {
-            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity2);
-            correct = false;
-        } else {
-            Log.d("just to see", "NO INPUT FOR THE RADIOBUTTONS");
-            correct = false;
+//        if (direction == 2131231228) {
+//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + capitalCity);
+//            correct = true;
+//        } else if (direction == 2131231229) {
+//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity1);
+//            correct = false;
+//        } else if (direction == 2131231230) {
+//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity2);
+//            correct = false;
+//        } else {
+//            Log.d("just to see", "NO INPUT FOR THE RADIOBUTTONS");
+//            correct = false;
+//        }
+        String selectedRadioButtonText = null;
+        if (direction != -1)  {
+            RadioButton selectedRadioButton = radiogroup.findViewById(direction);
+            selectedRadioButtonText = selectedRadioButton.getText().toString();
+            if(selectedRadioButtonText.equals(capitalCity))
+                    correct = true;
         }
         Date currentDate = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String quizDate = dateFormatter.format(currentDate);
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+        String currentTime = timeFormatter.format(currentDate);
+        quizDate = quizDate + " " + currentTime;
 
         if (fragmentCreationCount == 2) {
             question1 = previousState;
