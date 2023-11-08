@@ -45,11 +45,6 @@ public class StartQuizFragment extends Fragment {
     private static int number_completed_answers = 1;
 
 
-
-
-
-
-
     private String previousState;
     private readQuizzesData readQuizzesData = null;
     private static List<readcsv> readcsvList;
@@ -65,6 +60,7 @@ public class StartQuizFragment extends Fragment {
     private RadioButton thirdRadioButton;
     private static int fragmentCreationCount = 0;
 
+
     private TextView textview;
     private readcsvData readcsvData = null;
 
@@ -73,6 +69,8 @@ public class StartQuizFragment extends Fragment {
     public StartQuizFragment() {
         // Required empty public constructor
     }
+
+
 
     public static StartQuizFragment newInstance(int position) {
         StartQuizFragment fragment = new StartQuizFragment();
@@ -198,7 +196,7 @@ public class StartQuizFragment extends Fragment {
         if (fragmentCreationCount == 7) {
             ConstraintLayout constraintLayout1 = view.findViewById(R.id.constraintLayout1);
             constraintLayout1.setVisibility(View.GONE);
-            ConstraintLayout constraintLayout3= view.findViewById(R.id.constraintLayout3);
+            ConstraintLayout constraintLayout3 = view.findViewById(R.id.constraintLayout3);
             constraintLayout3.setVisibility(View.VISIBLE);
         }
         if (fragmentCreationCount == 8) {
@@ -217,7 +215,7 @@ public class StartQuizFragment extends Fragment {
             if (matcher.find()) {
                 String valuesString = matcher.group();
                 String[] valuesArray = valuesString.split(" ");
-                if(valuesArray.length == 2) {
+                if (valuesArray.length == 2) {
                     correct_answers = valuesArray[0];
                     total_answers = valuesArray[1].substring(0, valuesArray[1].length() - 1);
                 }
@@ -232,6 +230,8 @@ public class StartQuizFragment extends Fragment {
             textview2.setText("Total Answered: " + total_answers);
             TextView textview3 = view.findViewById(R.id.textView10);
             textview3.setText("Correctly Answered: " + correct_answers);
+            resetFragmentCount();
+
         }
         Log.d("JUST TO CHECK SOON TO DELETE", "FragmentCreationCount: " + fragmentCreationCount);
         textview.setText(fragmentCreationCount + ". What is the capital of " + state + "?");
@@ -295,11 +295,11 @@ public class StartQuizFragment extends Fragment {
 //            correct = false;
 //        }
         String selectedRadioButtonText = null;
-        if (direction != -1)  {
+        if (direction != -1) {
             RadioButton selectedRadioButton = radiogroup.findViewById(direction);
             selectedRadioButtonText = selectedRadioButton.getText().toString();
-            if(selectedRadioButtonText.equals(capitalCity))
-                    correct = true;
+            if (selectedRadioButtonText.equals(capitalCity))
+                correct = true;
         }
         Date currentDate = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -345,7 +345,7 @@ public class StartQuizFragment extends Fragment {
             question4 = previousState;
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
-         } else if (fragmentCreationCount == 6) {
+        } else if (fragmentCreationCount == 6) {
             number_completed_answers++;
             if (correct) {
                 number_correct_answers++;
@@ -378,10 +378,11 @@ public class StartQuizFragment extends Fragment {
 
     public class readQuizzesDBWriter extends AsyncTask<readQuizzes, readQuizzes> {
         @Override
-        protected readQuizzes doInBackground (readQuizzes... readQuizzesMulti) {
-            readQuizzesData.storeReadQuizzes( readQuizzesMulti[0]);
+        protected readQuizzes doInBackground(readQuizzes... readQuizzesMulti) {
+            readQuizzesData.storeReadQuizzes(readQuizzesMulti[0]);
             return readQuizzesMulti[0];
         }
+
         @Override
         protected void onPostExecute(readQuizzes readQuizzesToken) {
             //            Toast.makeText( getActivity(), "state: " + readcsvToken.getState(),
@@ -391,14 +392,17 @@ public class StartQuizFragment extends Fragment {
 
     public class updateQuizzesDBWriter extends AsyncTask<readQuizzes, readQuizzes> {
         private long idToUpdate;
+
         public updateQuizzesDBWriter(long id) {
             this.idToUpdate = id;
         }
+
         @Override
         protected readQuizzes doInBackground(readQuizzes... readQuizzesMulti) {
             readQuizzesData.updateReadQuizzes(idToUpdate, readQuizzesMulti[0]);
             return readQuizzesMulti[0];
         }
+
         @Override
         protected void onPostExecute(readQuizzes readQuizzesToken) {
 
@@ -409,12 +413,23 @@ public class StartQuizFragment extends Fragment {
         @Override
         protected List<readQuizzes> doInBackground(Void... params) {
             List<readQuizzes> readQuizzesList = readQuizzesData.retrieveAllreadQuizzesLeads();
-            Log.d("TAG", "Recieved: " + readQuizzesList.size() );
+            Log.d("TAG", "Recieved: " + readQuizzesList.size());
             return readQuizzesList;
         }
+
         @Override
         protected void onPostExecute(List<readQuizzes> readQuizzes) {
 
         }
     }
+
+    // Add this method to reset the fragment count
+    public void resetFragmentCount() {
+        fragmentCreationCount = 0;
+    }
 }
+
+
+
+
+

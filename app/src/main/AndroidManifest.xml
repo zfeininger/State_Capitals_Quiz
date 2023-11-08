@@ -15,6 +15,9 @@
         <activity
             android:name=".StartQuizActivity"
             android:exported="false" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
         <activity
             android:name=".readcsvData"
             android:exported="false" />
@@ -33,3 +36,6 @@
     </application>
 
 </manifest>
+
+
+

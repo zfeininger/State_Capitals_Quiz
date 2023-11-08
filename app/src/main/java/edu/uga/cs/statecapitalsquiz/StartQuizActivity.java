@@ -20,10 +20,10 @@ import com.google.android.material.navigation.NavigationView;
 public class StartQuizActivity extends AppCompatActivity {
     public static final String TAG = "StartQuizActivity";
 
-    private DrawerLayout drawerLayout;
+    //private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private NavigationView navigationView;
-    private ActionBarDrawerToggle drawerToggle;
+    //private NavigationView navigationView;
+    //private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,29 +31,39 @@ public class StartQuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start_quiz);
 
 
-        // assigning ID of the toolbar to a variable
-        toolbar = findViewById(R.id.toolbar);
 
-        // using toolbar as ActionBar
+        // Assign the Toolbar
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Find our drawer view
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
+        // Enable the up button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerToggle.syncState();
+
+        // assigning ID of the toolbar to a variable
+       // toolbar = findViewById(R.id.toolbar);
+
+        // using toolbar as ActionBar
+        //setSupportActionBar(toolbar);
+
+        // Find our drawer view
+        //drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //drawerToggle = setupDrawerToggle();
+
+        //drawerToggle.setDrawerIndicatorEnabled(true);
+        //drawerToggle.syncState();
 
         // Connect DrawerLayout events to the ActionBarToggle
-        drawerLayout.addDrawerListener(drawerToggle);
+        //drawerLayout.addDrawerListener(drawerToggle);
 
         // Find the drawer view
-        navigationView = findViewById(R.id.nvView);
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    selectDrawerItem(menuItem);
-                    return true;
-                });
+       // navigationView = findViewById(R.id.nvView);
+       // navigationView.setNavigationItemSelectedListener(
+         //       menuItem -> {
+           //         selectDrawerItem(menuItem);
+             //       return true;
+               // });
 
 
         ViewPager2 pager = findViewById( R.id.viewpager );
@@ -82,8 +92,8 @@ public class StartQuizActivity extends AppCompatActivity {
             Intent intent = new Intent(StartQuizActivity.this, StartQuizActivity.class);
             startActivity(intent);
         } else if (itemId == R.id.past_quiz) {
-           // fragment = new PastQuizFragment();
-            //fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("start quiz fragment" ).commit();
+            fragment = new PastQuizFragment();
+            fragmentManager.beginTransaction().replace( R.id.fragmentContainerView, fragment).addToBackStack("start quiz fragment" ).commit();
         } else if (itemId == R.id.menu_close) {
            // finish();
             finishAffinity();
@@ -102,39 +112,49 @@ public class StartQuizActivity extends AppCompatActivity {
          */
 
         // Close the navigation drawer
-        drawerLayout.closeDrawers();
+       // drawerLayout.closeDrawers();
     }
 
-    private ActionBarDrawerToggle setupDrawerToggle() {
+ //   private ActionBarDrawerToggle setupDrawerToggle() {
         // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
         // and will not render the hamburger icon without it.
-        return new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close );
-    }
+//        return new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+//                R.string.drawer_open,
+//                R.string.drawer_close );
+//    }
 
     // onPostCreate is called when activity start-up is complete after onStart()
-    @Override
-    protected void onPostCreate( Bundle savedInstanceState ) {
-        super.onPostCreate( savedInstanceState );
+//    @Override
+//    protected void onPostCreate( Bundle savedInstanceState ) {
+//        super.onPostCreate( savedInstanceState );
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
+//        drawerToggle.syncState();
+//    }
 
-    @Override
-    public void onConfigurationChanged( @NonNull Configuration newConfig ) {
-        super.onConfigurationChanged( newConfig );
+//    @Override
+//    public void onConfigurationChanged( @NonNull Configuration newConfig ) {
+//        super.onConfigurationChanged( newConfig );
         // Pass any configuration change to the drawer toggles
-        drawerToggle.onConfigurationChanged( newConfig );
-    }
+//        drawerToggle.onConfigurationChanged( newConfig );
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        if( drawerToggle.onOptionsItemSelected( item ) ) {
+//    @Override
+//    public boolean onOptionsItemSelected( MenuItem item ) {
+//        if( drawerToggle.onOptionsItemSelected( item ) ) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected( item );
+//    }
+
+   public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+//             Handle the up button press
+            onBackPressed(); // This will behave like the back button
             return true;
         }
-        return super.onOptionsItemSelected( item );
+        return super.onOptionsItemSelected(item);
     }
+
 
 }
 

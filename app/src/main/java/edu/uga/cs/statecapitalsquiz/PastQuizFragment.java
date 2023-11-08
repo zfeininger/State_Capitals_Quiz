@@ -1,5 +1,4 @@
 package edu.uga.cs.statecapitalsquiz;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -151,8 +150,3 @@ public class PastQuizFragment extends Fragment {
 
     }
 }
-
-
-
-
-
