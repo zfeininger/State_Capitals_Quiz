@@ -2,12 +2,15 @@ package edu.uga.cs.statecapitalsquiz;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -28,6 +33,7 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class StartQuizFragment extends Fragment {
+    private Button button;
     private static String question1 = null;
     private static String question2 = null;
     private static String question3 = null;
@@ -188,8 +194,37 @@ public class StartQuizFragment extends Fragment {
         }
         previousState = state;
 
-
-
+        if (fragmentCreationCount == 7) {
+            ConstraintLayout constraintLayout1 = view.findViewById(R.id.constraintLayout1);
+            constraintLayout1.setVisibility(View.GONE);
+            ConstraintLayout constraintLayout3= view.findViewById(R.id.constraintLayout3);
+            constraintLayout3.setVisibility(View.VISIBLE);
+        }
+        if (fragmentCreationCount == 8) {
+            Log.d("ASDKJLFHLAKJSDHFL;ADSHFASHDLKFJHASLJDKF", "this should work");
+            long id = readQuizzesList.size();
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            ConstraintLayout constraintLayout1 = view.findViewById(R.id.constraintLayout1);
+            constraintLayout1.setVisibility(View.GONE);
+            ConstraintLayout constraintLayout2 = view.findViewById(R.id.constraintLayout2);
+            constraintLayout2.setVisibility(View.VISIBLE);
+            String results = readQuizzesList.toString();
+            Pattern pattern = Pattern.compile("\\d+ \\d+\\]");
+            Matcher matcher = pattern.matcher(results);
+            String correct_answers = null;
+            String total_answers = null;
+            if (matcher.find()) {
+                String valuesString = matcher.group();
+                String[] valuesArray = valuesString.split(" ");
+                if(valuesArray.length == 2) {
+                    correct_answers = valuesArray[0];
+                    total_answers = valuesArray[1].substring(0, valuesArray[1].length() - 1);
+                }
+            }
+            Log.d("ASDKJLFHLAKJSDHFL;ADSHFASHDLKFJHASLJDKF", "this should work" + correct_answers);
+            TextView textview = view.findViewById(R.id.textView);
+            textview.setText(correct_answers);
+        }
         Log.d("JUST TO CHECK SOON TO DELETE", "FragmentCreationCount: " + fragmentCreationCount);
         textview.setText(fragmentCreationCount + ". What is the capital of " + state + "?");
         firstRadioButton.setText(capitalCity);
@@ -270,6 +305,36 @@ public class StartQuizFragment extends Fragment {
             readQuizzesList = new readQuizzesDBReader().doInBackground();
             long id = readQuizzesList.size();
             question3 = previousState;
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
+        } else if (fragmentCreationCount == 5) {
+            number_completed_answers++;
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            long id = readQuizzesList.size();
+            question4 = previousState;
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
+         } else if (fragmentCreationCount == 6) {
+            number_completed_answers++;
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            long id = readQuizzesList.size();
+            question5 = previousState;
+            readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
+            new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
+        } else if (fragmentCreationCount == 7) {
+            number_completed_answers++;
+            if (correct) {
+                number_correct_answers++;
+            }
+            readQuizzesList = new readQuizzesDBReader().doInBackground();
+            long id = readQuizzesList.size();
+            question6 = previousState;
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         }
