@@ -66,6 +66,8 @@ public class StartQuizActivity extends AppCompatActivity {
                // });
 
 
+
+
         ViewPager2 pager = findViewById( R.id.viewpager );
         capitalsPageAdapter avpAdapter = new
                 capitalsPageAdapter(
