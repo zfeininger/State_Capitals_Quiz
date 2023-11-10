@@ -21,9 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link readcsvFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This is the readcsvFragment class which is used to read the csv of states into the SQLite database.
+ * It is called by MainActivity.
  */
 public class readcsvFragment extends Fragment {
 
@@ -87,6 +86,10 @@ public class readcsvFragment extends Fragment {
 //            readcsvList.addAll(readcsvList);
         }
     }
+    /*
+     * This is the class used to save the states information from the csv file into the database.
+     * It is within an OnClickListener that is always called when the fragment is called.
+     */
     private class SaveButtonClickListener implements  View.OnClickListener {
         private AssetManager assetManager;
         SaveButtonClickListener(AssetManager assetManager) {

@@ -1,5 +1,8 @@
 package edu.uga.cs.statecapitalsquiz;
 
+/*
+ * This readcsv class is essential in storing data about each state instance into the database.
+ */
 public class readcsv {
 
     private long id;

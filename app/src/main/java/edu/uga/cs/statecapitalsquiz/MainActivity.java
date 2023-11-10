@@ -28,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
 
+    /*
+     * The onCreate method for this activity which builds the view (dependent on fragments) and
+     * works on navigation.
+     * @params savedInstanceState
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        Fragment fragment = new readcsvFragment();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
 
         if (savedInstanceState == null) {
             Fragment fragment = new readcsvFragment();
@@ -84,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    /*
+     * SelectDrawerItem method that is used to determine which navigational path has been
+     * chosen.
+     * @param menuItem
+     * @return void
+     */
     public void selectDrawerItem( MenuItem menuItem ) {
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -103,20 +111,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Set up the fragment by replacing any existing fragment in the main activity
-
-        /*
-        // this is included here as a possible future modification
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked( true );
-        // Set action bar title
-        setTitle( menuItem.getTitle());
-         */
 
         // Close the navigation drawer
         drawerLayout.closeDrawers();
     }
 
+    /*
+     * This is the setupDrawerToggle method that is used to return the actionBarDrawerToggle along
+     * with whether it is opened or closed.
+     * @return ActionBarDrawerToggle
+     */
     private ActionBarDrawerToggle setupDrawerToggle() {
         // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
         // and will not render the hamburger icon without it.
@@ -125,7 +129,11 @@ public class MainActivity extends AppCompatActivity {
                 R.string.drawer_close );
     }
 
-    // onPostCreate is called when activity start-up is complete after onStart()
+    /*
+     * onPostCreate is called when activity start-up is complete after onStart()
+     * @param savedInstanceState
+     * @return void
+     */
     @Override
     protected void onPostCreate( Bundle savedInstanceState ) {
         super.onPostCreate( savedInstanceState );
@@ -133,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
+    /*
+     * This method is used to handle the changing of configuration.
+     * @params newConfig
+     * @return void
+     */
     @Override
     public void onConfigurationChanged( @NonNull Configuration newConfig ) {
         super.onConfigurationChanged( newConfig );
@@ -140,6 +153,11 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged( newConfig );
     }
 
+    /*
+     * This method is designed to return where an option is selected or not.
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected( MenuItem item ) {
         if( drawerToggle.onOptionsItemSelected( item ) ) {
@@ -148,6 +166,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected( item );
     }
 
+    /*
+     * This method is used to save the Instance state.
+     * @param outState
+     * @return void
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

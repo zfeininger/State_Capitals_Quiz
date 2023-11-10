@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link PastQuizFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This is the pastQuizFragment which is used to display the previous quizzes. It is a fragment
+ * that is plugged into MainActivity.
  */
 public class PastQuizFragment extends Fragment {
     private TextView textview1;
@@ -51,6 +50,13 @@ public class PastQuizFragment extends Fragment {
 
     }
 
+    /*
+     * This is the method designed to fetch and display the previous quizzes for the user.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,7 +122,16 @@ public class PastQuizFragment extends Fragment {
         }
     }
 
+    /*
+     * This is the class used to fetch the quiz data from the SQLite database. It uses
+     * AsyncTask to avoid bogging down the main thread.
+     */
     public class readQuizzesDBReader extends AsyncTask<Void, List<readQuizzes>> {
+        /*
+         * This is the method that handles fetching the quiz data from retrieveAllreadQuizzesLeads().
+         * @param params
+         * @return List<readQuizzes>
+         */
         @Override
         protected List<readQuizzes> doInBackground(Void... params) {
             List<readQuizzes> readQuizzesList = readQuizzesData.retrieveAllreadQuizzesLeads();
@@ -136,6 +151,13 @@ public class PastQuizFragment extends Fragment {
         }
     }
 
+    /*
+     * This is the clean method used to return the strings of quiz information that need to be
+     * displayed. It takes the information from a list and organizes it to be displayed to the user
+     * @param readQuizzesListClean
+     * @param pos
+     * @return String
+     */
     public String clean(List<readQuizzes> readQuizzesListClean, int pos) {
         String firstAttemptClean = null;
         if (pos >= readQuizzesListClean.size()) {

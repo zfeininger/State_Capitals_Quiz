@@ -1,5 +1,8 @@
 package edu.uga.cs.statecapitalsquiz;
 
+/*
+ * This readQuizzes class is essential in storing data about each quiz instance into the database.
+ */
 public class readQuizzes {
     private long id;
     private String quizDate;

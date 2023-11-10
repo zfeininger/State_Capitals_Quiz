@@ -10,6 +10,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * This is the class that is designed to interact directly with the database. It is referenced through
+ * AsyncTask method calls. It is specifically used to interact with the state database.
+ */
 public class readcsvData {
 
     public static final String DEBUG_TAG = "readcsvData";
@@ -40,6 +44,10 @@ public class readcsvData {
     }
 
     public boolean isDBOpen() {return db.isOpen();}
+    /*
+     * This method is used to retrieve all state data stored in the database.
+     * @return List<readcsv>
+     */
     public List<readcsv> retrieveAllreadcsvLeads() {
         ArrayList<readcsv> readcsvs = new ArrayList<>();
         Cursor cursor = null;
@@ -82,6 +90,11 @@ public class readcsvData {
         return readcsvs;
     }
 
+    /*
+     * This is the method used to store all of the state data into the database.
+     * @param readcsvToken
+     * @return readcsv
+     */
     public readcsv storereadcsv (readcsv readcsvToken) {
         ContentValues values = new ContentValues();
         values.put( readcsvDBHelper.STATES_COLUMN_STATES, readcsvToken.getState());

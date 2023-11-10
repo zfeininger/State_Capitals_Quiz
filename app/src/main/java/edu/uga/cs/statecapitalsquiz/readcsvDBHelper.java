@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 
+/*
+ * This is the class directly responsible for creating the states database.
+ */
 public class readcsvDBHelper extends SQLiteOpenHelper {
 
     private static final String DEBUG_TAG = "readcsvDBHelper";

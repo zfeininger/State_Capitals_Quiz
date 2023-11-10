@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.util.Log;
 
+/*
+ * This is the class directly responsible for creating the quizzes database.
+ */
+
 public class readQuizzesDBHelper extends SQLiteOpenHelper {
     private static final String DEBUG_TAG = "readQuizzesDBHelper";
     private static final String DB_Name = "readQuizzes.db";

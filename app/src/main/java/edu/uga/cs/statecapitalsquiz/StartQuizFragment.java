@@ -29,9 +29,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link StartQuizFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *  This is the StartQuizFragment. It is essential for the operation of the quiz. It is called multiple
+ *  times by the slider, and can interact with its multiple other instances in order to
+ *  create a fully functional quiz.
  */
 public class StartQuizFragment extends Fragment {
     private Button button;
@@ -91,6 +91,15 @@ public class StartQuizFragment extends Fragment {
         }
     }
 
+    /*
+     * This is the onCreateView method for this fragment. It handles multiple different functionalities.
+     * It establishes the view based on the state information pulled from the database. It also handles when
+     * the quiz is finished and the results need to be shown.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -275,6 +284,12 @@ public class StartQuizFragment extends Fragment {
 
     }
 
+    /*
+     * The onPause method for this fragment is used to support the quiz functionality with the slider.
+     * Whenever the slider is moved, on fragment is paused and destroyed, and as it is paused, the
+     * fragments results are recorded.
+     * @return void
+     */
     @Override
     public void onPause() {
         super.onPause();

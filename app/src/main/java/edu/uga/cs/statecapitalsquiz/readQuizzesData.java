@@ -10,6 +10,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * This is the class that is designed to interact directly with the database. It is referenced through
+ * AsyncTask method calls. It is specifically used to interact with the quiz database.
+ */
 public class readQuizzesData {
     public static final String DEBUG_TAG = "readQuizzesData";
     private SQLiteDatabase db2;
@@ -41,6 +45,10 @@ public class readQuizzesData {
         }
     }
 
+    /*
+     * This method is used to retrieve all quiz data stored in the database.
+     * @return List<readQuizzes>
+     */
     public List<readQuizzes> retrieveAllreadQuizzesLeads() {
         ArrayList<readQuizzes> readQuizzes = new ArrayList<>();
         Cursor cursor = null;
@@ -94,6 +102,11 @@ public class readQuizzesData {
         return readQuizzes;
     }
 
+    /*
+     * This is the method used to store all of the quiz data into the database.
+     * @param readQuizzesToken
+     * @return readQuizzes
+     */
     public readQuizzes storeReadQuizzes (readQuizzes readQuizzesToken) {
         ContentValues values = new ContentValues();
         values.put(readQuizzesDBHelper.QUIZZES_COLUMN_QUIZDATE, readQuizzesToken.getQuizDate());

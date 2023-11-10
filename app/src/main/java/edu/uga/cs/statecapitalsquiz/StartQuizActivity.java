@@ -17,6 +17,11 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
+/*
+ * This is the StartQuizActivity which is specifically used t o call the StartQuizFragment. It
+ * is called by the MainActivity and is used for all of the quiz functionality.
+ */
+
 public class StartQuizActivity extends AppCompatActivity {
     public static final String TAG = "StartQuizActivity";
 
@@ -25,6 +30,12 @@ public class StartQuizActivity extends AppCompatActivity {
     //private NavigationView navigationView;
     //private ActionBarDrawerToggle drawerToggle;
 
+    /*
+     * This is the onCreate method for this class. It stands out because it is the focus of the
+     * slider mechanism.
+     * @param savedInstanceState
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,32 +50,6 @@ public class StartQuizActivity extends AppCompatActivity {
         // Enable the up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        // assigning ID of the toolbar to a variable
-       // toolbar = findViewById(R.id.toolbar);
-
-        // using toolbar as ActionBar
-        //setSupportActionBar(toolbar);
-
-        // Find our drawer view
-        //drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //drawerToggle = setupDrawerToggle();
-
-        //drawerToggle.setDrawerIndicatorEnabled(true);
-        //drawerToggle.syncState();
-
-        // Connect DrawerLayout events to the ActionBarToggle
-        //drawerLayout.addDrawerListener(drawerToggle);
-
-        // Find the drawer view
-       // navigationView = findViewById(R.id.nvView);
-       // navigationView.setNavigationItemSelectedListener(
-         //       menuItem -> {
-           //         selectDrawerItem(menuItem);
-             //       return true;
-               // });
-
 
 
 
@@ -103,50 +88,9 @@ public class StartQuizActivity extends AppCompatActivity {
             return;
         }
 
-        // Set up the fragment by replacing any existing fragment in the main activity
 
-        /*
-        // this is included here as a possible future modification
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked( true );
-        // Set action bar title
-        setTitle( menuItem.getTitle());
-         */
-
-        // Close the navigation drawer
-       // drawerLayout.closeDrawers();
     }
 
- //   private ActionBarDrawerToggle setupDrawerToggle() {
-        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
-        // and will not render the hamburger icon without it.
-//        return new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-//                R.string.drawer_open,
-//                R.string.drawer_close );
-//    }
-
-    // onPostCreate is called when activity start-up is complete after onStart()
-//    @Override
-//    protected void onPostCreate( Bundle savedInstanceState ) {
-//        super.onPostCreate( savedInstanceState );
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-//        drawerToggle.syncState();
-//    }
-
-//    @Override
-//    public void onConfigurationChanged( @NonNull Configuration newConfig ) {
-//        super.onConfigurationChanged( newConfig );
-        // Pass any configuration change to the drawer toggles
-//        drawerToggle.onConfigurationChanged( newConfig );
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected( MenuItem item ) {
-//        if( drawerToggle.onOptionsItemSelected( item ) ) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected( item );
-//    }
 
    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
