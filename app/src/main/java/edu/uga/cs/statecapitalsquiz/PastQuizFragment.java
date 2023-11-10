@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,7 +121,14 @@ public class PastQuizFragment extends Fragment {
         protected List<readQuizzes> doInBackground(Void... params) {
             List<readQuizzes> readQuizzesList = readQuizzesData.retrieveAllreadQuizzesLeads();
             Log.d("TAG", "Recieved: " + readQuizzesList.size() );
-            return readQuizzesList;
+
+            List<readQuizzes> filterList = new ArrayList<>();
+            for (readQuizzes quiz : readQuizzesList) {
+                if (quiz.getQuizDate() != null) {
+                    filterList.add(quiz);
+                }
+            }
+            return filterList;
         }
         @Override
         protected void onPostExecute(List<readQuizzes> readQuizzes) {

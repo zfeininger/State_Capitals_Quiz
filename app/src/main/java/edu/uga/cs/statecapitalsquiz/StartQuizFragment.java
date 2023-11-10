@@ -117,9 +117,7 @@ public class StartQuizFragment extends Fragment {
         readcsv item = readcsvList.get(fragmentCreationCount);
         String itemString = item.toString();
         String[] tokens = itemString.split("\\s+");
-//        previousState = tokens[0];
-//        String[] parts = previousState.split(":");
-//        previousState = parts[0];
+
         state = tokens[1];
         capitalCity = tokens[2];
         additionalCity1 = tokens[3];
@@ -274,26 +272,15 @@ public class StartQuizFragment extends Fragment {
             readcsvData.open();
         if (readQuizzesData != null && !readQuizzesData.isDB2Open())
             readQuizzesData.open();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        //here
         boolean correct = false;
         int direction = radiogroup.getCheckedRadioButtonId();
-//        if (direction == 2131231228) {
-//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + capitalCity);
-//            correct = true;
-//        } else if (direction == 2131231229) {
-//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity1);
-//            correct = false;
-//        } else if (direction == 2131231230) {
-//            Log.d("just to see", "INPUT FOR RADIOBUTTON: " + additionalCity2);
-//            correct = false;
-//        } else {
-//            Log.d("just to see", "NO INPUT FOR THE RADIOBUTTONS");
-//            correct = false;
-//        }
         String selectedRadioButtonText = null;
         if (direction != -1) {
             RadioButton selectedRadioButton = radiogroup.findViewById(direction);
@@ -301,12 +288,7 @@ public class StartQuizFragment extends Fragment {
             if (selectedRadioButtonText.equals(capitalCity))
                 correct = true;
         }
-        Date currentDate = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        String quizDate = dateFormatter.format(currentDate);
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-        String currentTime = timeFormatter.format(currentDate);
-        quizDate = quizDate + " " + currentTime;
+        String quizDate = null;
 
         if (fragmentCreationCount == 2) {
             question1 = previousState;
@@ -316,7 +298,7 @@ public class StartQuizFragment extends Fragment {
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new readQuizzesDBWriter().execute(readQuizzesTokenExecute);
         } else if (fragmentCreationCount == 3) {
-            number_completed_answers++;
+            number_completed_answers = 2;
             if (correct) {
                 number_correct_answers++;
             }
@@ -326,7 +308,7 @@ public class StartQuizFragment extends Fragment {
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         } else if (fragmentCreationCount == 4) {
-            number_completed_answers++;
+            number_completed_answers = 3;
             if (correct) {
                 number_correct_answers++;
             }
@@ -336,7 +318,7 @@ public class StartQuizFragment extends Fragment {
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         } else if (fragmentCreationCount == 5) {
-            number_completed_answers++;
+            number_completed_answers = 4;
             if (correct) {
                 number_correct_answers++;
             }
@@ -346,7 +328,7 @@ public class StartQuizFragment extends Fragment {
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         } else if (fragmentCreationCount == 6) {
-            number_completed_answers++;
+            number_completed_answers = 5;
             if (correct) {
                 number_correct_answers++;
             }
@@ -356,7 +338,13 @@ public class StartQuizFragment extends Fragment {
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
         } else if (fragmentCreationCount == 7) {
-            number_completed_answers++;
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            quizDate = dateFormatter.format(currentDate);
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+            String currentTime = timeFormatter.format(currentDate);
+            quizDate = quizDate + " " + currentTime;
+            number_completed_answers = 6;
             if (correct) {
                 number_correct_answers++;
             }
@@ -365,12 +353,10 @@ public class StartQuizFragment extends Fragment {
             question6 = previousState;
             readQuizzes readQuizzesTokenExecute = new readQuizzes(quizDate, question1, question2, question3, question4, question5, question6, number_correct_answers, number_completed_answers);
             new updateQuizzesDBWriter(id).execute(readQuizzesTokenExecute);
+            number_correct_answers = 0;
+            number_completed_answers = 1;
         }
 
-
-//        if ((readQuizzesData != null && readQuizzesData.isDB2Open()) && fragmentCreationCount > 6) {
-//            readQuizzesData.close();
-//        }
         if (readcsvData != null && readcsvData.isDBOpen()) {
             readcsvData.close();
         }

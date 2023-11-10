@@ -33,9 +33,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment fragment = new readcsvFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
+//        Fragment fragment = new readcsvFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
+
+        if (savedInstanceState == null) {
+            Fragment fragment = new readcsvFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
+        } else {
+            String fragmentTag = savedInstanceState.getString("currentFragmentTag");
+            if (fragmentTag != null) {
+                Fragment fragment;
+                if (fragmentTag.equals("PastQuizFragment")) {
+                    fragment = new PastQuizFragment();
+                } else {
+                    fragment = new readcsvFragment();
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).addToBackStack("main screen").commit();
+            }
+        }
 
         // assigning ID of the toolbar to a variable
         toolbar = findViewById(R.id.toolbar);
@@ -130,6 +146,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected( item );
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (currentFragment != null) {
+            outState.putString("currentFragmentTag", currentFragment.getTag());
+        }
     }
 
 
